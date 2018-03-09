@@ -78,10 +78,83 @@ And here is the same as a list comp:
 Here is an example pairing two elements from two different lists:
 """
 
-names = ["John", "Eric", "Michael"]
-age = [78, 74, 74]
+f_names = ["image_01", "image_02", "image_03"]
+f_types = [".jpg", ".png"]
 
-pair_list = []
+file_list = []
+for f_name in f_names:
+    for f_type in f_types:
+        file_list.append(f_name + f_type)
+
+
+print(file_list)
+# ['image_01.jpg', 'image_01.png',
+# 'image_02.jpg', 'image_02.png',
+# 'image_03.jpg', 'image_03.png']
+
+"""
+The list comp verions would be the expression first,
+f_name + f_type followed by the for loops in the order they 
+apear, for f_name in f_names then for f_type in f_types.
+
+"""
+
+c_file_list = [f_name + f_type for f_name in f_names for f_type in f_types]
+
+print(c_file_list)
+# ['image_01.jpg', 'image_01.png',
+# 'image_02.jpg', 'image_02.png',
+# 'image_03.jpg', 'image_03.png']
+
+"""
+You can use if else conditions in list comps, too.
+Since the list comp is jsut each statement of a loop writen in order after 
+the expression we can easily understand how to lay this out.
+
+Lets look at this with a simple check to see if a number is even.
+"""
+
+numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+even = []
+for n in numbers:
+    if n % 2 == 0:
+        even.append(n)
+
+print(even)
+# [2, 4, 6, 8, 10]
+
+"""
+And as a list comp:
+"""
+
+lc_even = [n for n in numbers if n % 2 == 0]
+print(lc_even)
+# [2, 4, 6, 8, 10]
+
+"""
+You can start to see how readable and clean list comps can be.
+Let's look at one with an else clause.
+"""
+
+numbers = [1, 2, 3, 4]
+even = []
+for n in numbers:
+    if n % 2 == 0:
+        even.append(n)
+    else:
+        even.append(str(n) + " is not even")
+
+print(even)
+# ['1 is not even', 2, '3 is not even', 4]
+
+lc_even = [n if n % 2 == 0 else str(n) + " is not even" for n in numbers]
+print(lc_even)
+# ['1 is not even', 2, '3 is not even', 4]
+
+"""
+Now that it different. If you noticed here, now that there is an else clause,
+the entire if else check is shifted at the start.
+"""
 
 # i = 2
 # while i < 20:
@@ -93,10 +166,10 @@ pair_list = []
 #     if j > (i//j):
 #         pair_list.append("{} is prime".format(i))
 #     i += 1
-print(pair_list)
-i = 2
-
-for i in range(2, 20):
+# print(pair_list)
+# i = 2
+#
+# for i in range(2, 20):
 
 
 # END  ----------------------
