@@ -1,10 +1,11 @@
 #!/usr/bin/python3
 
-# Author:   Benjamin Parry
-# Blog:     benjamin.parry.com
-# Post:     Python's Function Decorators
-# Link:     http://benjamin-parry.com/2018/02/21/python-function-decorators
-
+"""
+Author:   Benjamin Parry
+Blog:     benjamin.parry.com
+Post:     Python's Function Decorators
+Link:     http://benjamin-parry.com/2018/02/21/python-function-decorators
+"""
 
 # Extending Functions With Functions ----------------------
 
