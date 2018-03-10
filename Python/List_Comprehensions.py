@@ -4,7 +4,7 @@
 Author:   Benjamin Parry
 Blog:     benjamin.parry.com
 Post:     Python's List Comprehensions
-Link:     http://benjamin-parry.com/2018/03/07/python-list-comprehensions
+Link:     http://benjamin-parry.com/2018/03/11/python-list-comprehensions
 """
 
 
@@ -64,13 +64,13 @@ variable floating around.
 """
 
 
-# If Else Conditions?  ----------------------
+# If Else Conditions.  ----------------------
 
 
 """
-You can use if else conditions in list comps.
-Since the list comp is just each statement of a loop writen in order after
-the expression we can easily understand how to lay this out.
+You can use if else conditions in list comps. Since the list comp is just
+each statement of a loop written in order after the expression we can easily
+understand how to lay this out.
 
 Here is an example checking if a number in a list is even.
 """
@@ -104,27 +104,27 @@ for n in numbers:
     if n % 2 == 0:
         even.append(n)
     else:
-        even.append(str(n) + " is not even")
+        even.append(str(n) + ": odd")
 
 print(even)
-# ['1 is not even', 2, '3 is not even', 4]
+# ['1: odd', 2, '3: odd', 4]
 
-lc_even = [n if n % 2 == 0 else str(n) + " is not even" for n in numbers]
+lc_even = [n if n % 2 == 0 else str(n) + ": odd" for n in numbers]
 
 print(lc_even)
-# ['1 is not even', 2, '3 is not even', 4]
+# ['1: odd', 2, '3: odd', 4]
 
 """
 What happened there? If you noticed, now that the else clause has been
-introduced the entire if else check is shifted at the start. This I suppose
-is because depending on the results of the condition, the expression will be
-different, and we know that the expression comes first in a list comp.
+introduced, the entire if else check is shifted to the start. This I suppose
+is because depending on the results of the if else checks, the expression will
+be different. We know already that the expression comes first in a list comp.
 An if condition with no else only has one expression so the if can trail
 after the for loop.
 """
 
 
-# Nested For Loops?  ----------------------
+# Nested For Loops.  ----------------------
 
 
 """
@@ -149,12 +149,12 @@ Here is an example pairing two elements from two different lists:
 """
 
 f_names = ["image_01", "image_02", "image_03"]
-f_types = [".jpg", ".png"]
+f_formats = [".jpg", ".png"]
 
 files = []
 for f_name in f_names:
-    for f_type in f_types:
-        files.append(f_name + f_type)
+    for f_format in f_formats:
+        files.append(f_name + f_format)
 
 print(files)
 # ['image_01.jpg', 'image_01.png',
@@ -163,12 +163,12 @@ print(files)
 
 """
 The list comp version would be the expression first,
-f_name + f_type followed by the for loops in the order they 
-appear, for f_name in f_names then for f_type in f_types.
+f_name + f_format followed by the for loops in the order they
+appear, for f_name in f_names then for f_format in f_formats.
 
 """
 
-lc_files = [f_name + f_type for f_name in f_names for f_type in f_types]
+lc_files = [f_name + f_format for f_name in f_names for f_format in f_formats]
 
 print(lc_files)
 # ['image_01.jpg', 'image_01.png',
@@ -194,6 +194,10 @@ lc_flat_numbers = [n for l in numbers for n in l]
 print(lc_flat_numbers)
 # [1, 2, 3, 4, 5, 6, 7, 8, 9]
 
+
+# A List Of Lists.  ----------------------
+
+
 """
 Now lets say we need to return a list of lists, like in
 this example of multiplying a matrix by a vector.
@@ -210,8 +214,8 @@ for x in matrix:
     matrix_mult.append(temp_list)
 
 print(matrix)
-print(matrix_mult)
 # [[5, 1, 3], [1, 1, 1], [1, 2, 1]]
+print(matrix_mult)
 # [[5, 2, 9], [1, 2, 3], [1, 4, 3]]
 
 """
@@ -219,12 +223,12 @@ Unlike the flat numbers where we iterate through making one list, the matrix
 is a list of 3 lists with 3 elements each.
 So we need to construct and inner set of lists and return a list of those
 lists. Although in a quick glance it looks like a nested for loop like before,
-it is handled a little more different.
+it is handled a little more differently.
 
 It is broken down from the inside out working on creating the temp_list and
 adding that list to matrix_mult.
 
-Lets see this as a for loop with and inner list comp
+Lets first see this as a for loop with the inner loop as a list comp:
 """
 
 matrix = [[5, 1, 3], [1, 1, 1], [1, 2, 1]]
@@ -238,10 +242,10 @@ print(matrix_mult)
 # [[5, 2, 9], [1, 2, 3], [1, 4, 3]]
 
 """
-So as you can see from the inner for loop being taken care of with a list
+From making the inner for loop being taken care of with a list
 comp, you can this of this not as a for loop nested inside another creating a
 single list, but actually as a for loop creating a list using a nested for
-loop that creates it's own list.
+loop that creates its own list.
 
 Now let's see the whole thing as a single list comp:
 """
@@ -259,13 +263,17 @@ code down to a single line of code. Now let's break this beast down. So we
 work from the inside out:
 
 Our first list is [x[z] * vector[z] for z in range(len(x))] this is still
-[expr for element in list]. Now for our outer list comp.
-[[] for x in matrix] which is also [expr for element in list].
-Nested together it looks like this:
+[expr for element in list]. The outer list comp is [[] for x in matrix],
+which is also [expr for element in list]. Nested together it looks like this:
 """
 # [[expr for element in list] for element in list]
+
+
+# Don't Go Overboard!  ----------------------
+
+
 """
-In cases like this where the list comp is starting to get quite large, you
+In cases like above where the list comp is starting to get quite large, you
 really have to start thinking about readability. I will let you decide which
 level of complexity is your preferred. You may also look at using in-built
 functions where possible.
@@ -284,15 +292,20 @@ print(transposed_matrix)
 # [[1, 5, 9], [2, 6, 10], [3, 7, 11], [4, 8, 12]]
 
 """
-Or using the zip() function.
+The zip() function:
 """
 
 zip_transposed_matrix = list(zip(*matrix))
 print(zip_transposed_matrix)
 # [(1, 5, 9), (2, 6, 10), (3, 7, 11), (4, 8, 12)]
 
+"""
+You can see that the zip() function is less code and is quite a lot easier to
+read.
+"""
 
-# Using Elif In List Comps  ----------------------
+
+# Using Elif In List Comps.  ----------------------
 
 
 """
@@ -308,7 +321,7 @@ If below...
 # else:
 #     expr
 """
-... is the same as below...
+We do this.
 """
 # if something:
 #     expr
@@ -318,14 +331,16 @@ If below...
 #     else:
 #         expr
 """
-.. we can put it into a list comp.
-The syntax is as follows:"""
+Now we can make a list comp.
+The syntax is as follows:
+"""
 # [expr if 1st cond.. else expr if 2nd cond.. else expr for elem in iterator]
-"""Let's see and example, where I document if a number is odd or even.
-I will do the normal for loop first then the list comp. I will write the for
-loop in the same fashion that the list comp will be. That is to say avoiding
-the use of an elif clause. The example below is for showcasing the syntax, as
-in the real world this is quite and unruly line of code.
+"""
+Let's see an example, where I append odd or even to number but not to 0.
+
+I'll show you a for loop first. It will be written excluding the use of elif,
+to better understand the flow of the list comp. This is an example of a list
+comp becoming too long, but it is useful to showcase the syntax.
 """
 
 numbers = [-3, -2, -1, 0, 1, 2, 3]
@@ -346,56 +361,15 @@ print(odd_evens)
 lc_odd_evens = ["0" if n == 0
                 else str(n) + ": even" if n % 2 == 0
                 else str(n) + ": odd" for n in numbers]
+
 print(lc_odd_evens)
 # ['-3: odd', '-2: even', '-1: odd', '0', '1: odd', '2: even', '3: odd']
 
 """
-I split the list comp over three lines. This adds to it's readability and fits
+I split the list comp over three lines. This adds to its readability and fits
 within standard line lengths.
 With these line splits it does start to make you feel that you should have
 just written a simple for loop with some if, elif, else statements.
 """
 
 # END  ----------------------
-
-
-"""for x in range(10):
-
-for i in range(10, 20):
-
-new_list.append(x*i)
-
-is the same as
-
-new_list = [x*i for x in range(10) for i in range(10, 20)]
-
-loops vs list comps
-
-how to use them
-
-generator comps
-
-dict comps
-
-List, generator, dict comps"""
-
-# one = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
-# two = [11, 12, 13, 14, 15, 16, 17, 18, 19, 20]
-#
-# sets = [(x, y) for x in one for y in two if x % 2 == 0 and y % 2 == 0]
-# print(sets)
-#
-# crazy_sets = [(x, y) if x % 2 == 0 and y % 2 == 0 else (x, y) if x % 3 == 0 and y % 3 == 0 else "N/A" for x in one for y in two]
-# print(crazy_sets)
-#
-# old_school_crazy = []
-# for x in one:
-#     for y in two:
-#         if x % 2 == 0 and y % 2 == 0:
-#             old_school_crazy.append((x, y))
-#         elif x % 3 == 0 and y % 3 == 0:
-#             old_school_crazy.append((x, y))
-#         else:
-#             old_school_crazy.append("N/A")
-#
-# print(old_school_crazy)
